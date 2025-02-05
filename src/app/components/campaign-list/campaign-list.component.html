@@ -1,0 +1,40 @@
+<div class="campaign-list">
+  <div class="header">
+    <h1>Campaigns</h1>
+    <a routerLink="/campaigns/new" class="button">Create New Campaign</a>
+  </div>
+
+  <div class="grid-header">
+    <div>Campaign Name</div>
+    <div>Status</div>
+    <div>Bid Amount</div>
+    <div>Fund</div>
+    <div>Actions</div>
+  </div>
+
+  <div class="campaign-item" *ngFor="let campaign of campaigns$ | async; trackBy: trackById"
+       [ngClass]="{'status-changed': campaign.status !== originalStatus[campaign.id]}">
+    <div class="field">
+      <span class="field-label">Campaign Name:</span>
+      {{ campaign.name }}
+    </div>
+    <div class="field">
+      <span class="field-label">Status:</span>
+      <span class="status" [class.active]="campaign.status === 'true'" [class.inactive]="campaign.status === 'false'"> 
+        {{ campaign.status === 'true' ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+    <div class="field">
+      <span class="field-label">Bid Amount:</span>
+      {{ campaign.bidAmount | currency }}
+    </div>
+    <div class="field">
+      <span class="field-label">Fund:</span>
+      {{ campaign.campaignFund | currency }}
+    </div>
+    <div class="actions">
+      <button routerLink="/campaigns/edit/{{campaign.id}}">Edit</button>
+      <button (click)="deleteCampaign(campaign.id)">Delete</button>
+    </div>
+  </div>
+</div>

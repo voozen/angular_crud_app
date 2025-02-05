@@ -1,0 +1,8 @@
+<nav class="navbar">
+  <div class="container">
+    <a routerLink="/campaigns" class="logo" style="cursor: pointer; text-decoration: none">Emerald Campaigns</a>
+    <div class="balance">
+      Account balance: {{ balance$ | async | currency }}
+    </div>
+  </div>
+</nav>

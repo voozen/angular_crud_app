@@ -1,0 +1,85 @@
+<div class="campaign-form-container">
+  <h2>{{ isEditMode ? 'Edit Campaign' : 'Create New Campaign' }}</h2>
+  <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()" class="campaign-form">
+    <div class="form-group">
+      <label>Campaign Name</label>
+      <input type="text" formControlName="name">
+      <div class="error" *ngIf="campaignForm.get('name')?.errors?.['required'] && campaignForm.get('name')?.touched">
+        Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Keywords</label>
+      <div class="chips-container">
+        <div class="keyword-chip" *ngFor="let keyword of keywordsArray">
+          {{ keyword }}
+          <button type="button" (click)="removeKeyword(keyword)">&times;</button>
+        </div>
+      </div>
+      <input type="text" formControlName="keywords" [matAutocomplete]="auto" #keywordInput
+             (keydown.enter)="addCustomKeyword()"
+             (keydown.comma)="addCustomKeyword()"
+             (blur)="addCustomKeyword()">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onKeywordSelected($event)">
+        <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword">
+          {{ keyword }}
+        </mat-option>
+      </mat-autocomplete>
+      <div class="error" *ngIf="campaignForm.errors?.['requiredKeywords']">
+        At least one keyword is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Bid Amount</label>
+        <input type="number" formControlName="bidAmount" min="0">
+        <div class="error" *ngIf="campaignForm.get('bidAmount')?.errors?.['required'] && campaignForm.get('bidAmount')?.touched">
+          Bid amount is required
+        </div>
+        <div class="error" *ngIf="campaignForm.get('bidAmount')?.errors?.['min']">
+          Minimum bid is $1
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Campaign Fund</label>
+        <input type="number" formControlName="campaignFund" min="0">
+        <div class="error" *ngIf="campaignForm.get('campaignFund')?.errors?.['required'] && campaignForm.get('campaignFund')?.touched">
+          Fund is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select formControlName="status">
+          <option [value]="true">Active</option>
+          <option [value]="false">Inactive</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Town</label>
+        <select formControlName="town">
+          <option *ngFor="let town of towns" [value]="town">{{ town }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Radius (km)</label>
+        <input type="number" formControlName="radius" min="0">
+        <div class="error" *ngIf="campaignForm.get('radius')?.errors?.['required'] && campaignForm.get('radius')?.touched">
+          Radius is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="onCancel()">Cancel</button>
+      <button type="submit" [disabled]="campaignForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
+    </div>
+  </form>
+</div>
