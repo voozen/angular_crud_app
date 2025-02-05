@@ -37,7 +37,7 @@ export class CampaignFormComponent implements OnInit {
       campaignFund: [null, [Validators.required, Validators.min(1)]],
       status: [true, Validators.required],
       town: ['', Validators.required],
-      radius: [null, [Validators.required, Validators.min(1)]]
+      radius: [null, [Validators.required, Validators.min(0)]]
     }, { 
       validators: [() => this.keywordsArray.length === 0 ? { requiredKeywords: true } : null] 
     });
@@ -79,6 +79,8 @@ export class CampaignFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.campaignForm.markAllAsTouched();
+
     if (this.campaignForm.valid) {
       const formValue = {
         ...this.campaignForm.value,

@@ -4,7 +4,7 @@
     <div class="form-group">
       <label>Campaign Name</label>
       <input type="text" formControlName="name">
-      <div class="error" *ngIf="campaignForm.get('name')?.errors?.['required'] && campaignForm.get('name')?.touched">
+      <div class="error" *ngIf="campaignForm.get('name')?.errors?.['required']">
         Name is required
       </div>
     </div>
@@ -35,7 +35,7 @@
       <div class="form-group">
         <label>Bid Amount</label>
         <input type="number" formControlName="bidAmount" min="0">
-        <div class="error" *ngIf="campaignForm.get('bidAmount')?.errors?.['required'] && campaignForm.get('bidAmount')?.touched">
+        <div class="error" *ngIf="campaignForm.get('bidAmount')?.errors?.['required']">
           Bid amount is required
         </div>
         <div class="error" *ngIf="campaignForm.get('bidAmount')?.errors?.['min']">
@@ -46,7 +46,7 @@
       <div class="form-group">
         <label>Campaign Fund</label>
         <input type="number" formControlName="campaignFund" min="0">
-        <div class="error" *ngIf="campaignForm.get('campaignFund')?.errors?.['required'] && campaignForm.get('campaignFund')?.touched">
+        <div class="error" *ngIf="campaignForm.get('campaignFund')?.errors?.['required']">
           Fund is required
         </div>
       </div>
@@ -71,8 +71,11 @@
       <div class="form-group">
         <label>Radius (km)</label>
         <input type="number" formControlName="radius" min="0">
-        <div class="error" *ngIf="campaignForm.get('radius')?.errors?.['required'] && campaignForm.get('radius')?.touched">
+        <div class="error" *ngIf="campaignForm.get('radius')?.errors?.['required']">
           Radius is required
+        </div>
+        <div class="error" *ngIf="campaignForm.get('radius')?.errors?.['min']">
+          Minimum radius is 0km
         </div>
       </div>
     </div>
